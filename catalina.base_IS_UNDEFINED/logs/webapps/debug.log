@@ -1,0 +1,8 @@
+2018-07-26 16:29:18.880[main] DEBUG com.widestar.o2o.util.ImageUtil - current relativeAddr is:/upload/item/shop3/2018072616291822367.jpg
+2018-07-26 16:29:18.886[main] DEBUG com.widestar.o2o.util.ImageUtil - current complete addr is:/home/zeguang/image//upload/item/shop3/2018072616291822367.jpg
+2018-07-26 16:43:43.620[main] DEBUG com.widestar.o2o.util.ImageUtil - current relativeAddr is:upload/item/shop4/2018072616434275492.jpg
+2018-07-26 16:43:43.623[main] DEBUG com.widestar.o2o.util.ImageUtil - current complete addr is:/home/zeguang/image/upload/item/shop4/2018072616434275492.jpg
+2018-07-26 16:59:40.526[main] DEBUG com.widestar.o2o.util.ImageUtil - current relativeAddr is:upload/item/shop5/2018072616594012029.jpg
+2018-07-26 16:59:40.530[main] DEBUG com.widestar.o2o.util.ImageUtil - current complete addr is:/Users/didi/zeguang/image/upload/item/shop5/2018072616594012029.jpg
+2018-07-26 18:14:38.825[main] DEBUG com.widestar.o2o.util.ImageUtil - current relativeAddr is:upload/item/shop7/2018072618143856891.jpg
+2018-07-26 18:14:38.828[main] DEBUG com.widestar.o2o.util.ImageUtil - current complete addr is:/Users/didi/zeguang/image/upload/item/shop7/2018072618143856891.jpg
