@@ -11,8 +11,6 @@ import com.widestar.o2o.service.AreaService;
 import com.widestar.o2o.service.ShopCategoryService;
 import com.widestar.o2o.service.ShopService;
 import com.widestar.o2o.util.HttpServletRequestUtil;
-import com.widestar.o2o.util.ImageUtil;
-import com.widestar.o2o.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,30 +37,31 @@ public class ShopManagementController {
   private ShopCategoryService shopCategoryService;
   @Autowired
   private AreaService areaService;
-  @RequestMapping(value = "/getshopinitinfo",method = RequestMethod.GET)
+
+  @RequestMapping(value = "/getshopinitinfo", method = RequestMethod.GET)
   @ResponseBody
-  private Map<String,Object> getshopInitInfo(){
-    Map<String,Object> modelMap=new HashMap<>();
-    List<ShopCategory> shopCategoryList=new ArrayList<>();
-    List<Area> areaList=new ArrayList<>();
-    try{
-      shopCategoryList=shopCategoryService.getShopCategoryList(new ShopCategory());
-      areaList=areaService.getAreaList();
-      modelMap.put("shopCategoryList",shopCategoryList);
-      modelMap.put("areaList",areaList);
-      modelMap.put("success",true);
-    }catch (Exception e){
-      modelMap.put("success",false);
-      modelMap.put("errMsg",e.getMessage());
+  private Map<String, Object> getshopInitInfo() {
+    Map<String, Object> modelMap = new HashMap<>();
+    List<ShopCategory> shopCategoryList = new ArrayList<>();
+    List<Area> areaList = new ArrayList<>();
+    try {
+      shopCategoryList = shopCategoryService.getShopCategoryList(new ShopCategory());
+      areaList = areaService.getAreaList();
+      modelMap.put("shopCategoryList", shopCategoryList);
+      modelMap.put("areaList", areaList);
+      modelMap.put("success", true);
+    } catch (Exception e) {
+      modelMap.put("success", false);
+      modelMap.put("errMsg", e.getMessage());
     }
     return modelMap;
   }
+
   @RequestMapping(value = "/registershop", method = RequestMethod.POST)
   @ResponseBody
   private Map<String, Object> registerShop(HttpServletRequest request) {
     Map<String, Object> modelMap = new HashMap<>();
-    //1.接收并转化相应的参数
-    String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
+    String shopStr = HttpServletRequestUtil.getString(request,"shopStr");
     ObjectMapper mapper = new ObjectMapper();
     Shop shop = null;
     try {
@@ -93,36 +89,29 @@ public class ShopManagementController {
       PersonInfo owner = new PersonInfo();
       owner.setUserId(1l);
       shop.setOwner(owner);
-      File shopImgFile=new File(PathUtil.getImgBasePath()+ImageUtil.getRandomFileName());
+      ShopExecution se = null;
+      String a=shopImg.getOriginalFilename();
       try {
-        shopImgFile.createNewFile();
+        se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+        if (se.getState() == ShopStateEnum.CHECK.getState()) {
+          modelMap.put("success", true);
+        } else {
+          modelMap.put("success", false);
+          modelMap.put("errMsg", se.getStateInfo());
+        }
+        return modelMap;
       } catch (IOException e) {
         modelMap.put("success", false);
-        modelMap.put("errMsg:", e.getMessage());
-        return modelMap;
+        modelMap.put("errMsg", se.getStateInfo());
       }
-      try {
-        inputStreamToFile(shopImg.getInputStream(),shopImgFile);
-      } catch (IOException e) {
-        modelMap.put("success", false);
-        modelMap.put("errMsg:", e.getMessage());
-        return modelMap;
-      }
-      ShopExecution se = shopService.addShop(shop, shopImgFile);
-      if(se.getState()==ShopStateEnum.CHECK.getState()){
-        modelMap.put("success",true);
-      }else{
-        modelMap.put("success",false);
-        modelMap.put("errMsg",se.getStateInfo());
-      }
-      return modelMap;
+
     } else {
       modelMap.put("success", false);
       modelMap.put("errMsg:", "请输入店铺信息");
-      return modelMap;
     }
+    return modelMap;
   }
-
+/*
   private static void inputStreamToFile(InputStream ins, File file) {
     FileOutputStream os = null;
     try {
@@ -146,5 +135,5 @@ public class ShopManagementController {
         throw new RuntimeException("inputStreamToFile关闭io产生异常" + e.getMessage());
       }
     }
-  }
+  }*/
 }

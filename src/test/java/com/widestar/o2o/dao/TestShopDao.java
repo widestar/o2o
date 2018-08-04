@@ -64,7 +64,7 @@ public class TestShopDao extends BaseTest {
     shop.setAdvice("审核中");*/
     Shop shop=new Shop();
     shop.setShopId(1L);
-    shop.setShopName("刘泽广的店铺！");
+    shop.setShopName("刘泽广的店铺1111！");
     shop.setShopAddr("北京邮电大学！");
     shop.setLastEditTime(new Date());
     int effectedNum=shopDao.updateShop(shop);

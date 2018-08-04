@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -20,9 +21,9 @@ public class ImageUtil {
   private static final Random r = new Random();
   private static Logger logger = LoggerFactory.getLogger(ImageUtil.class);
 
-  public static String generateThumbnail(File thumbnail, String targetAddr) {
+  public static String generateThumbnail(InputStream thumbnailInputStream,String fileName, String targetAddr) {
     String realFileName = getRandomFileName();
-    String extension = getFileExtension(thumbnail);
+    String extension = getFileExtension(fileName);
     makeDirPath(targetAddr);
     String relativeAddr = targetAddr + realFileName + extension;
     logger.debug("current relativeAddr is:" + relativeAddr);
@@ -39,7 +40,7 @@ public class ImageUtil {
           .scale(0.25)
           .asBufferedImage();
       //给原始图加水印
-      Thumbnails.of(thumbnail)
+      Thumbnails.of(thumbnailInputStream)
           //.size(800, 800)
           //.rotate(90)
           .scale(0.8)
@@ -72,12 +73,11 @@ public class ImageUtil {
   /**
    * 获取输入文件流的扩展名
    *
-   * @param cFile
+   * @param fileName
    * @return
    */
-  private static String getFileExtension(File cFile) {
-    String originalFileName = cFile.getName();
-    return originalFileName.substring(originalFileName.lastIndexOf("."));
+  private static String getFileExtension(String fileName) {
+    return fileName.substring(fileName.lastIndexOf("."));
   }
 
   /**

@@ -1,7 +1,9 @@
 $(function () {
+    alert("haha");
     var initUrl = '/o2o/shopadmin/getshopinitinfo';
     var registerShopUrl = '/o2o/shopadmin/registershop';
     getShopInitInfo();
+
     function getShopInitInfo() {
         $.getJSON(initUrl, function (data) {
                 if (data.success) {
@@ -22,23 +24,25 @@ $(function () {
         );
         $('#submit').click(function () {
             var shop = {};
-            shop.shopAddr = $('#shop-addr').val();
-            shop.phone = $('#shop-phone').val();
-            shop.shopDesc = $('#shop-desc').val();
+            shop.shopName=$('#shop-name').val().toString();
+            shop.shopAddr = $('#shop-addr').val().toString();
+            shop.phone = $('#shop-phone').val().toString();
+            shop.shopDesc = $('#shop-desc').val().toString();
             shop.shopCategory = {
                 shopCategoryId: $('#shop-category').find('option').not(function () {
                     return !this.selected;
-                }).data('id')
+                }).data('id').toString()
             };
             shop.area = {
                 areaId: $('#area').find('option').not(function () {
                     return !this.selected;
-                }).data('id')
+                }).data('id').toString()
             };
             var shopImg = $('#shop-img')[0].files[0];
             var formData = new FormData();
             formData.append('shopImg', shopImg);
             formData.append('shopStr', JSON.stringify(shop));
+            alert(JSON.stringify(shop));
             $.ajax({
                 url: registerShopUrl,
                 type: 'POST',
@@ -48,9 +52,9 @@ $(function () {
                 cache: false,
                 success: function (data) {
                     if (data.success) {
-                        $.toast('提交成功！');
+                        $.toast('提交成功哈哈！');
                     } else {
-                        $.toast('提交失败！' + data.errMsg);
+                        $.toast('提交失败呜呜！' + data.errMsg);
                     }
                 }
             });
