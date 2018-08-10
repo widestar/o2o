@@ -18,6 +18,27 @@ public class ShopExecution {
   private List<Shop> shopList;
   //空构造器
   public ShopExecution(){}
+
+  public void setState(int state) {
+    this.state = state;
+  }
+
+  public void setStateInfo(String stateInfo) {
+    this.stateInfo = stateInfo;
+  }
+
+  public void setCount(int count) {
+    this.count = count;
+  }
+
+  public void setShop(Shop shop) {
+    this.shop = shop;
+  }
+
+  public void setShopList(List<Shop> shopList) {
+    this.shopList = shopList;
+  }
+
   //店铺操作失败的时候使用的构造器
   public ShopExecution(ShopStateEnum stateEnum){
     this.state=stateEnum.getState();

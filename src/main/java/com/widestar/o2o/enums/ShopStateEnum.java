@@ -6,7 +6,7 @@ public enum ShopStateEnum {
   NULL_SHOP(-1003,"SHop为空");
   private int state;
   private String stateInfo;
-  private ShopStateEnum(int state,String stateInfo){
+  ShopStateEnum(int state,String stateInfo){
     this.state=state;
     this.stateInfo=stateInfo;
   }

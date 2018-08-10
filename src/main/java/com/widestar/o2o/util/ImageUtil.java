@@ -92,6 +92,18 @@ public class ImageUtil {
     return nowTimeStr + rannum;
   }
 
+  public static void deleteFileOrPath(String storePath){
+     File fileOrPath=new File(PathUtil.getImgBasePath()+storePath);
+     if(fileOrPath.exists()){
+       if(fileOrPath.isDirectory()){
+         File[] files=fileOrPath.listFiles();
+         for(File file:files){
+           file.delete();
+         }
+       }
+       fileOrPath.delete();
+     }
+  }
   public static void main(String[] args) throws IOException {
     //原始图
     File originPic = new File("/Users/didi/Pictures/jing.jpg");

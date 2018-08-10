@@ -9,6 +9,8 @@ import com.widestar.o2o.entity.PersonInfo;
 import com.widestar.o2o.entity.Shop;
 import com.widestar.o2o.entity.ShopCategory;
 import com.widestar.o2o.enums.ShopStateEnum;
+import com.widestar.o2o.exceptions.ShopOperationException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +24,17 @@ public class TestShopService extends BaseTest {
   @Autowired
   private ShopService shopService;
   @Test
+  public void testGetShopList(){
+    Shop shopCondition = new Shop();
+    ShopCategory sc=new ShopCategory();
+    sc.setShopCategoryId(3L);
+    shopCondition.setShopCategory(sc);
+    ShopExecution se=shopService.getShopList(shopCondition,2,2);
+    System.out.println(se.getShopList().size());
+    System.out.println(se.getCount());
+  }
+  @Test
+  @Ignore
   public void testAddShop() throws FileNotFoundException {
     Shop shop=new Shop();
     PersonInfo owner=new PersonInfo();
@@ -44,5 +57,17 @@ public class TestShopService extends BaseTest {
     InputStream is=new FileInputStream(shopImg);
     ShopExecution se=shopService.addShop(shop,is,shopImg.getName());
     assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
+  }
+  @Test
+  @Ignore
+  public void testModifyShop() throws ShopOperationException, FileNotFoundException {
+    File file=new File("/Users/didi/Pictures/dog.jpg");
+    InputStream is=new FileInputStream(file);
+    Shop shop=new Shop();
+    shop.setShopId(29L);
+    shop.setShopName("测试的店铺enen");
+    ShopExecution shopExecution=shopService.modifyShop(shop,is,"dog.jpg");
+    System.out.println(shopExecution.getShop().getShopName());
+    System.out.println(shopExecution.getShop().getShopImg());
   }
 }
